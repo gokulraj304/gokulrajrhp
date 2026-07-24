@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static void update(int[][] dp, int i, int j, int value) {
+        if (value > dp[i][j]) {
+            dp[i][j] = value;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int T = Integer.parseInt(br.readLine());
+
+        while (T-- > 0) {
+
+            String a = br.readLine();
+            String b = br.readLine();
+
+            int n = a.length();
+            int m = b.length();
+
+            int[] preA = new int[n + 1];
+            int[] preB = new int[m + 1];
+
+            for (int i = 0; i < n; i++) {
+                preA[i + 1] = (preA[i] + (a.charAt(i) - '0')) % 10;
+            }
+
+            for (int i = 0; i < m; i++) {
+                preB[i + 1] = (preB[i] + (b.charAt(i) - '0')) % 10;
+            }
+
+            if (preA[n] != preB[m]) {
+                System.out.println(-1);
+                continue;
+            }
+
+            n++;
+            m++;
+
+            int[][] dp = new int[n + 1][m + 1];
+
+            for (int i = 0; i <= n; i++) {
+
+                for (int j = 0; j <= m; j++) {
+
+                    if (i < n)
+                        update(dp, i + 1, j, dp[i][j]);
+
+                    if (j < m)
+                        update(dp, i, j + 1, dp[i][j]);
+
+                    if (i < n && j < m && preA[i] == preB[j]) {
+                        update(dp, i + 1, j + 1, dp[i][j] + 1);
+                    }
+                }
+            }
+
+            System.out.println(dp[n][m] - 1);
+        }
+    }
+}
