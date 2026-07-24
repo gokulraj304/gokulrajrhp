@@ -1,0 +1,67 @@
+package learningofjava;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static class Person {
+        int h, l;
+
+        Person(int h, int l) {
+            this.h = h;
+            this.l = l;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        ArrayList<Person> stack = new ArrayList<>();
+
+        for (int i = 0; i < N; i++) {
+
+            StringTokenizer st = new StringTokenizer(br.readLine());
+
+            int h = Integer.parseInt(st.nextToken());
+            int l = Integer.parseInt(st.nextToken());
+
+            while (!stack.isEmpty() &&
+                    stack.get(stack.size() - 1).h <= h) {
+                stack.remove(stack.size() - 1);
+            }
+
+            stack.add(new Person(h, l));
+        }
+
+        int Q = Integer.parseInt(br.readLine());
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        StringBuilder ans = new StringBuilder();
+
+        for (int i = 0; i < Q; i++) {
+
+            int T = Integer.parseInt(st.nextToken());
+
+            int left = 0;
+            int right = stack.size();
+
+            while (left < right) {
+
+                int mid = (left + right) / 2;
+
+                if (stack.get(mid).l > T)
+                    right = mid;
+                else
+                    left = mid + 1;
+            }
+
+            ans.append(stack.get(left).h).append('\n');
+        }
+
+        System.out.print(ans);
+    }
+}
