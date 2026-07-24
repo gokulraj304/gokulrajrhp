@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        int[] A = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        ArrayList<Integer>[] pos = new ArrayList[N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            pos[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < N; i++) {
+            A[i] = Integer.parseInt(st.nextToken());
+            pos[A[i]].add(i + 1);   
+        }
+
+        long totalSubarrays = 1L * N * (N + 1) / 2;
+
+        long answer = 0;
+
+        for (int value = 1; value <= N; value++) {
+
+            long without = 0;
+
+            int prev = 0;
+
+            for (int idx : pos[value]) {
+
+                long len = idx - prev - 1;
+
+                without += len * (len + 1) / 2;
+
+                prev = idx;
+            }
+
+            long len = N - prev;
+
+            without += len * (len + 1) / 2;
+
+            answer += totalSubarrays - without;
+        }
+
+        System.out.println(answer);
+    }
+}
