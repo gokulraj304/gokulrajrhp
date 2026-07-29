@@ -1,81 +1,26 @@
-package learningofjava;
-import java.io.*;
-import java.util.*;
-
-public class Main {
-
-    static int lowerBound(long[] arr, long target) {
-        int left = 0;
-        int right = arr.length;
-
-        while (left < right) {
-            int mid = (left + right) / 2;
-
-            if (arr[mid] >= target)
-                right = mid;
-            else
-                left = mid + 1;
-        }
-
-        return left;
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int loc[n];
+    long long peo[n+1];
+    for(int i=0;i<n;i++){
+        cin>>loc[i];
     }
-
-    static int upperBound(long[] arr, long target) {
-        int left = 0;
-        int right = arr.length;
-
-        while (left < right) {
-            int mid = (left + right) / 2;
-
-            if (arr[mid] > target)
-                right = mid;
-            else
-                left = mid + 1;
-        }
-
-        return left;
+    peo[0]=0;
+    for(int i=1;i<=n;i++){
+        cin>>peo[i];
+        peo[i]=peo[i-1]+peo[i];
     }
-
-    public static void main(String[] args) throws Exception {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int N = Integer.parseInt(br.readLine());
-
-        long[] X = new long[N];
-        long[] P = new long[N];
-        long[] prefix = new long[N + 1];
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            X[i] = Long.parseLong(st.nextToken());
-        }
-
-        st = new StringTokenizer(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            P[i] = Long.parseLong(st.nextToken());
-            prefix[i + 1] = prefix[i] + P[i];
-        }
-
-        int Q = Integer.parseInt(br.readLine());
-
-        StringBuilder ans = new StringBuilder();
-
-        while (Q-- > 0) {
-
-            st = new StringTokenizer(br.readLine());
-
-            long L = Long.parseLong(st.nextToken());
-            long R = Long.parseLong(st.nextToken());
-
-            int left = lowerBound(X, L);
-            int right = upperBound(X, R);
-
-            ans.append(prefix[right] - prefix[left]).append("\n");
-        }
-
-        System.out.print(ans);
+    int m;
+    cin>>m;
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        int it1=lower_bound(loc,loc+n,a)-loc;
+        int it2=upper_bound(loc,loc+n,b)-loc;
+        cout<<peo[it2]-peo[it1]<<endl;
     }
 }
