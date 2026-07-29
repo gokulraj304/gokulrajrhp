@@ -1,41 +1,30 @@
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int N = sc.nextInt();
-
-        int max = 0;
-        int[] freq = new int[200002];
-
-        for (int i = 0; i < N; i++) {
-            int x = sc.nextInt();
-            freq[x]++;
-            max = Math.max(max, x);
-        }
-
-        long[] suffix = new long[max + 2];
-
-        for (int i = max; i >= 1; i--) {
-            suffix[i] = suffix[i + 1] + freq[i];
-        }
-
-        StringBuilder ans = new StringBuilder();
-
-        long carry = 0;
-
-        for (int i = 1; i <= max; i++) {
-            long cur = suffix[i] + carry;
-            ans.append(cur % 10);
-            carry = cur / 10;
-        }
-
-        while (carry > 0) {
-            ans.append(carry % 10);
-            carry /= 10;
-        }
-
-        System.out.println(ans.reverse());
-    }
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int main() {
+int n;
+cin>>n;
+vector<int> arr(n);
+for(int i=0;i<n;i++){
+    cin>>arr[i];
+}
+vector<int> ans;
+sort(arr.begin(),arr.end());
+long long int carry=0;
+for(int i=1;i<=arr[n-1];i++){
+    auto it=lower_bound(arr.begin(),arr.end(),i);
+    int count=(arr.end())-it;
+    carry+=count;
+    ans.push_back(carry%10);
+    carry/=10;
+}while(carry!=0){
+    ans.push_back(carry%10);
+    carry/=10;
+}
+reverse(ans.begin(),ans.end());
+for(int x:ans){
+    cout<<x;
+}
+    return 0;
 }
