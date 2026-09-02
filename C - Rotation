@@ -1,0 +1,24 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main(){
+    int n,q;
+    cin>>n>>q;
+    string s;
+    cin>>s;
+    int pos=n-1;
+    while(q--){
+        int x,y;
+        cin>>x>>y;
+        y=y%n;
+        if(x==1){
+            pos=pos-y;
+            if(pos<0)pos+=n;
+        }
+        else{
+            cout<<s[(pos+y)%n]<<'\n';
+        }
+    }
+}
